@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotwells Cars</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    #gallery {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #cars-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #cars-container div {
+      margin: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: #fff;
+      width: 200px;
+      text-align: center;
+    }
+
+    #car-3d {
+      margin-top: 50px;
+      text-align: center;
+      width: 100%;
+      height: 400px;
+    }
+
+    #3d-scene {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
+</head>
+<body>
+
+  <div id="gallery">
+    <h1>Γκαλερί Αυτοκινήτων</h1>
+    <div id="cars-container">
+      <!-- Εδώ θα προσθέσουμε τα αυτοκίνητα -->
+    </div>
+  </div>
+
+  <div id="car-3d">
+    <h1>3D Μοντέλο Αυτοκινήτου</h1>
+    <div id="3d-scene"></div>
+  </div>
+
+  <script>
+    // 3D Σκηνή με Three.js
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('3d-scene').appendChild(renderer.domElement);
+
+    // Προσθήκη ενός κύβου για να φαίνεται σαν αυτοκίνητο (μπορείς να το αντικαταστήσεις με 3D μοντέλο)
+    const carGeometry = new THREE.BoxGeometry(1, 0.5, 2);
+    const carMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const car = new THREE.Mesh(carGeometry, carMaterial);
+    scene.add(car);
+
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      car.rotation.x += 0.01;
+      car.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Γκαλερί αυτοκινήτων
+    const cars = [
+      {
+        name: "BMW X5",
+        model: "2022",
+        price: 60000,
+        year: 2022,
+        imageUrl: "https://example.com/bmw-x5.jpg"
+      },
+      {
+        name: "Audi A6",
+        model: "2021",
+        price: 45000,
+        year: 2021,
+        imageUrl: "https://example.com/audi-a6.jpg"
+      },
+      {
+        name: "Mercedes C-Class",
+        model: "2020",
+        price: 50000,
+        year: 2020,
+        imageUrl: "https://example.com/mercedes-c-class.jpg"
+      }
+    ];
+
+    const container = document.getElementById('cars-container');
+    cars.forEach(car => {
+      const carElement = document.createElement('div');
+      carElement.innerHTML = `
+        <img src="${car.imageUrl}" alt="${car.name}" style="width: 100%;">
+        <h3>${car.name}</h3>
+        <p>${car.model}</p>
+        <p>${car.year}</p>
+        <p>€${car.price}</p>
+      `;
+      container.appendChild(carElement);
+    });
+  </script>
+
+</body>
+</html>
